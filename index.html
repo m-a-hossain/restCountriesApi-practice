@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       
+        #cname{
+          color:red;
+          cursor: pointer;
+        }
+        #modal{
+            display: block;
+            width:50%;
+            height: 50%;
+          
+        }
+       
+        .left{
+            text-align: center;
+            cursor: pointer;
+           /*  border: .5px solid; */
+        }
+        .left li{
+            width: 300px;
+            padding: 10px;
+            text-decoration: none;
+            list-style-type: none;
+        }
+        .right{
+            margin-top: 0;
+            margin-right: 0;
+            margin-left: 800px;
+            width: 40%;
+            height: 50%;
+            padding: 20px;
+            position: fixed;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rest-countries call API practice One</h1>
+<div style="display: grid;grid-template-columns: repeat(2, 1fr);">
+   <div class="left">
+        <ul id="ul">
+
+        </ul>
+    </div>
+    <div class="right">
+    <div id="modal">
+        <div id="modal-contant">
+        <table>
+            <tr>
+                <th>name</th><td id="country">Country Name</td>
+            </tr>
+            <tr>
+                <th>Capital city</th><td id="capital">Country Capital</td>
+            </tr>
+            <tr>
+            <th>currency</th><td id="currency">Money Name</td>
+            </tr>
+            <tr>
+            <th>flag</th><td><img id="img" src="" alt="/flag.png" width="100%" height="300"></td>
+            </tr>
+                
+        </table>
+        </div>
+
+     </div>
+    </div>
+</div>
+ 
+   
+</body>
+</html>
+<script>
+         function DisplayCountries(){
+                fetch('https://restcountries.eu/rest/v2/all')
+                .then(res => res.json())
+                .then(data => {
+                // console.log(data)
+                for(i in data){
+                let liText =data[i].name
+                let  ul =document.getElementById('ul')
+                let a = document.createElement('a');
+        
+                let li= document.createElement('li')
+                li.setAttribute('onclick', 'getCountry(this.innerText)');
+                    a.appendChild(li)
+                    li.setAttribute('id','cname')
+                    li.innerText = liText
+                    ul.appendChild(li)
+
+                }
+              
+                getCountry(name)
+     
+         })
+        
+        }
+            DisplayCountries() 
+
+
+            //document.getElementById('modal').style.display='none'
+                    const getCountry= name=>{
+                                // const name= console.log(city) 
+                                //const names= city.innerText
+                                const url= `https://restcountries.eu/rest/v2/name/${name}`
+                                // console.log(url)
+                                fetch(url)
+                                .then(res => res.json())
+                                .then(result => {
+                                    const getCon=result[0]
+                                    console.log(result[0])
+                                    const came= getCon.name
+                                    console.log(came)
+                                    const getCapital= getCon.capital
+                                //   const gname= came.name
+                                    console.log(getCapital)
+                                    const getCurrency =getCon.currencies[0]
+                                    const curren= getCurrency.name
+                                    console.log(curren)
+                                    const getFlag= getCon.flag 
+                                    console.log(getFlag)
+                                     
+                                    //document.getElementById('modal').style.display='block'
+                                    document.getElementById('country').innerText = came
+                                    document.getElementById('capital').innerText=getCapital
+                                    document.getElementById('currency').innerText= curren
+                                    document.getElementById('img').src=getFlag
+                                })
+
+                                
+
+                            }
+                        
+  
+      
+       
+             
+     
+         /* -------------------------------------------------------------------------------------- */
+
+     
+    
+</script>
